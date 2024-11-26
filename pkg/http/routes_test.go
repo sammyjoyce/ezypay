@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"{{go_module}}/pkg/http"
+	"gitlab.com/australia-wide-first-aid/ezypay/pkg/http"
 )
 
 func TestHelloWorldHandler(t *testing.T) {

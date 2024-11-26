@@ -28,7 +28,7 @@ clean:
 
 build:
 	@echo "Building..."
-	@go build -o app ./cmd/api
+	@go build -o main ./cmd/api
 
 test:
 	@echo "Running tests..."
@@ -53,14 +53,10 @@ dev: proto
 	@echo "Starting development environment..."
 	@make -j2 dev-api dev-web
 
-dev-api:
+dev-api: build
 	@echo "Starting API server on port $(PORT)..."
-	@if command -v air > /dev/null; then \
-		GRPC_HOST=$(GRPC_HOST) GRPC_PORT=$(GRPC_PORT) air -c configs/.air.toml; \
-	else \
-		GRPC_HOST=$(GRPC_HOST) GRPC_PORT=$(GRPC_PORT) go run cmd/api/main.go; \
-	fi
+	@./main
 
 dev-web:
 	@echo "Starting web server..."
-	cd web && pnpm dev
+	@cd web && pnpm dev

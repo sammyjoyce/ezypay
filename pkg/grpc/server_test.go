@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/test/bufconn"
-	"{{go_module}}/internal/gen/hello"
+	"gitlab.com/australia-wide-first-aid/ezypay/internal/gen/hello"
 )
 
 func TestGRPCServer(t *testing.T) {

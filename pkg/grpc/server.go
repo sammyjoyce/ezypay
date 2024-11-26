@@ -7,7 +7,7 @@ import (
 	"os"
 	"strconv"
 
-	"{{go_module}}/internal/handlers"
+	"gitlab.com/australia-wide-first-aid/ezypay/internal/handlers"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"

@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
-	"{{go_module}}/internal/handlers"
+	"gitlab.com/australia-wide-first-aid/ezypay/internal/handlers"
 )
 
 // mockHandler implements the Handler interface for testing

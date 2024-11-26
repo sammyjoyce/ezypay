@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package hello;
 
-option go_package = "example/internal/gen/hello";
+option go_package = "gitlab.com/australia-wide-first-aid/ezypay/internal/gen/hello";
 
 // The request message containing the user's name
 message HelloRequest {

@@ -14,8 +14,8 @@ for file in $PROTO_FILES; do
     proto_dir=$(dirname $file)
     
     protoc \
-        --go_out=. --go_opt=module={{go_module}} \
-        --go-grpc_out=. --go-grpc_opt=module={{go_module}} \
+        --go_out=. --go_opt=module=gitlab.com/australia-wide-first-aid/ezypay \
+        --go-grpc_out=. --go-grpc_opt=module=gitlab.com/australia-wide-first-aid/ezypay \
         --proto_path=$proto_dir \
         --proto_path=api/protos \
         $file

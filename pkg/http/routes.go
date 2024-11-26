@@ -3,7 +3,7 @@ package http
 import (
 	"net/http"
 
-	"{{go_module}}/internal/service/hello"
+	"gitlab.com/australia-wide-first-aid/ezypay/internal/service/hello"
 
 	"github.com/gin-gonic/gin"
 )

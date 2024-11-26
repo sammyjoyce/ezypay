@@ -7,8 +7,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"{{go_module}}/pkg/grpc"
-	"{{go_module}}/pkg/http"
+	"gitlab.com/australia-wide-first-aid/ezypay/pkg/grpc"
+	"gitlab.com/australia-wide-first-aid/ezypay/pkg/http"
 )
 
 func main() {

@@ -5,32 +5,32 @@ import (
 	"log"
 
 	"google.golang.org/grpc"
-	"{{go_module}}/internal/gen/hello"
-	"{{go_module}}/internal/service/hello"
+	pb "gitlab.com/australia-wide-first-aid/ezypay/internal/gen/hello"
+	helloservice "gitlab.com/australia-wide-first-aid/ezypay/internal/service/hello"
 )
 
 // HelloHandler handles gRPC requests for the Hello service
 type HelloHandler struct {
-	hello.UnimplementedHelloServiceServer
-	service *hello.Service
+	pb.UnimplementedHelloServiceServer
+	service *helloservice.Service
 }
 
 // NewHelloHandler creates a new HelloHandler
 func NewHelloHandler() *HelloHandler {
 	return &HelloHandler{
-		service: hello.NewService(),
+		service: helloservice.NewService(),
 	}
 }
 
 // RegisterWithServer implements the Handler interface
 func (h *HelloHandler) RegisterWithServer(server interface{}) {
 	if grpcServer, ok := server.(*grpc.Server); ok {
-		hello.RegisterHelloServiceServer(grpcServer, h)
+		pb.RegisterHelloServiceServer(grpcServer, h)
 	}
 }
 
 // SayHello implements the HelloService gRPC method
-func (h *HelloHandler) SayHello(ctx context.Context, req *hello.HelloRequest) (*hello.HelloResponse, error) {
+func (h *HelloHandler) SayHello(ctx context.Context, req *pb.HelloRequest) (*pb.HelloResponse, error) {
 	log.Printf("Received: %s", req.GetName())
 
 	message, err := h.service.SayHello(ctx, req.GetName())
@@ -38,7 +38,7 @@ func (h *HelloHandler) SayHello(ctx context.Context, req *hello.HelloRequest) (*
 		return nil, err
 	}
 
-	return &hello.HelloResponse{
+	return &pb.HelloResponse{
 		Message: message,
 	}, nil
 }

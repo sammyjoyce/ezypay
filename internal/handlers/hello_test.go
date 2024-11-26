@@ -5,7 +5,7 @@ import (
 	"net"
 	"testing"
 
-	"{{go_module}}/internal/gen/hello"
+	"gitlab.com/australia-wide-first-aid/ezypay/internal/gen/hello"
 
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
