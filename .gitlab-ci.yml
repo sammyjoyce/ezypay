@@ -1,0 +1,99 @@
+# GitLab CI/CD for {{project_name}}
+# Author: {{author_name}} <{{author_email}}>
+
+image: golang:1.23
+
+variables:
+  GOPATH: $CI_PROJECT_DIR/.go
+  GO_MODULE: "{{go_module}}"
+  PROJECT_NAME: "{{project_name}}"
+  # Production server settings
+  GRPC_HOST: "0.0.0.0"  # Listen on all interfaces
+  GRPC_PORT: "50051"
+  PORT: "8080"
+  # Production environment
+  NODE_ENV: "production"
+  # These should be set in GitLab CI/CD variables
+  ALLOWED_ORIGINS: ${PROD_ALLOWED_ORIGINS}
+  VITE_API_HOST: ${PROD_API_HOST}
+  VITE_API_PORT: ${PROD_API_PORT}
+  VITE_GRPC_HOST: ${PROD_GRPC_HOST}
+  VITE_GRPC_PORT: ${PROD_GRPC_PORT}
+
+stages:
+  - proto
+  - test
+  - build
+  - deploy
+
+generate-proto:
+  stage: proto
+  script:
+    - apt-get update && apt-get install -y protobuf-compiler
+    - go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+    - go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+    - chmod +x scripts/generate_go_protos.sh scripts/generate_web_protos.sh
+    - ./scripts/generate_go_protos.sh
+  artifacts:
+    paths:
+      - internal/gen/
+
+test:
+  stage: test
+  script:
+    # Set up Go module path
+    - mkdir -p .go/src/$(dirname $GO_MODULE)
+    - ln -s $CI_PROJECT_DIR .go/src/$GO_MODULE
+    - cd .go/src/$GO_MODULE
+    
+    # Run tests
+    - go test -v ./...
+
+build-go:
+  stage: build
+  script:
+    # Set up Go module path
+    - mkdir -p .go/src/$(dirname $GO_MODULE)
+    - ln -s $CI_PROJECT_DIR .go/src/$GO_MODULE
+    - cd .go/src/$GO_MODULE
+    
+    # Build the application
+    - go build -o $CI_PROJECT_DIR/bin/$PROJECT_NAME cmd/api/main.go
+  artifacts:
+    paths:
+      - bin/$PROJECT_NAME
+
+build-web:
+  stage: build
+  image: node:20
+  script:
+    - cd web
+    # Install pnpm
+    - npm install -g pnpm
+    # Install dependencies
+    - pnpm install
+    # Build the web application
+    - pnpm build
+    - echo "APP_NAME={{project_name}}" >> .env
+    - echo "APP_DESCRIPTION={{project_description}}" >> .env
+  artifacts:
+    paths:
+      - web/build/
+      - web/.env
+
+deploy:
+  stage: deploy
+  script:
+    # Deploy Go binary
+    - chmod +x app
+    - GRPC_HOST=0.0.0.0 GRPC_PORT=$GRPC_PORT ./app &
+    
+    # Deploy web container with production environment
+    - |
+      docker run -d \
+        -e VITE_API_HOST=${VITE_API_HOST} \
+        -e VITE_API_PORT=${VITE_API_PORT} \
+        -e VITE_GRPC_HOST=${VITE_GRPC_HOST} \
+        -e VITE_GRPC_PORT=${VITE_GRPC_PORT} \
+        -p 3001:3000 \
+        $CI_REGISTRY_IMAGE/web:$CI_COMMIT_SHA

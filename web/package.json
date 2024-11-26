@@ -1,0 +1,42 @@
+{
+  "name": "{{project_name}}",
+  "private": true,
+  "type": "module",
+  "description": "{{project_description}}",
+  "author": "{{author_name}} <{{author_email}}>",
+  "scripts": {
+    "build": "react-router build",
+    "dev": "react-router dev",
+    "start": "react-router-serve ./build/server/index.js",
+    "typecheck": "react-router typegen && tsc --build --noEmit",
+    "proto-gen": "./codegen.sh"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "^2.2.2",
+    "@react-router/node": "^7.0.1",
+    "@react-router/serve": "^7.0.1",
+    "@tailwindcss/vite": "4.0.0-beta.2",
+    "isbot": "^5.1.17",
+    "long": "^5.2.3",
+    "nice-grpc": "^2.1.10",
+    "nice-grpc-common": "^2.0.2",
+    "protobufjs": "^7.4.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router": "^7.0.1"
+  },
+  "devDependencies": {
+    "@react-router/dev": "^7.0.1",
+    "@types/node": "^20",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "autoprefixer": "^10.4.20",
+    "grpc-tools": "^1.12.4",
+    "postcss": "^8.4.49",
+    "tailwindcss": "4.0.0-beta.2",
+    "ts-proto": "^2.3.0",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11",
+    "vite-tsconfig-paths": "^5.1.2"
+  }
+}

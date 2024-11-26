@@ -1,0 +1,31 @@
+name: Go-React-GRPC Template
+description: A template repository for building web applications with Go, React, and gRPC
+
+variables:
+  project_name:
+    type: string
+    description: The name of your project
+    default: my-grpc-project
+  project_description:
+    type: string
+    description: A short description of your project
+    default: A web application built with Go, React, and gRPC
+  go_module:
+    type: string
+    description: The Go module name (e.g., github.com/username/project)
+    default: github.com/username/my-grpc-project
+  author_name:
+    type: string
+    description: Your name or organization name
+    default: Your Name
+  author_email:
+    type: string
+    description: Your email address
+    default: your.email@example.com
+
+ignore:
+  - "node_modules"
+  - ".env"
+  - "dist"
+  - ".DS_Store"
+  - "tmp"

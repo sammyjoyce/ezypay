@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package hello;
+
+option go_package = "example/internal/gen/hello";
+
+// The request message containing the user's name
+message HelloRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message HelloResponse {
+  string message = 1;
+}
